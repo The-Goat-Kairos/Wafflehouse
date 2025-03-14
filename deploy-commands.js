@@ -39,7 +39,6 @@ const rest = new REST().setToken(DISCORD_TOKEN);
             // Routes.applicationCommands(CLIENT_ID),
 			{ body: commands },
 		);
-
 		console.log(`Successfully reloaded ${data.length} application (/) commands.`);
 	} catch (error) {
 		console.error(`[ERROR]: ${error}`);
