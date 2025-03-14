@@ -32,10 +32,47 @@ for (const folder of commandFolders) {
 		if ('data' in command && 'execute' in command) {
 			client.commands.set(command.data.name, command);
 		} else {
-			console.log(`[WARNING] The command at ${filePath} is missing a required "data" or "execute" property.`);
+			console.log(`[WARNING]: The command at ${filePath} is missing a required "data" or "execute" property.`);
 		}
 	}
 }
+
+client.on(Events.MessageCreate, async message => {
+    if (message.author.bot) return;
+
+    const botMention = message.content.match(/<@!?(\d+)>/);
+    if (!botMention) return;
+
+    // Get command name and arguments
+    const args = message.content.split(/\s+/);
+    const commandName = args[1]?.toLowerCase();
+
+    // Remove the mention and get clean arguments
+    const cleanArgs = args.slice(2);
+    await message.reply(`Command: ${commandName},\n Arguments: ${cleanArgs}`);
+});
+
+client.on(Events.InteractionCreate, async interaction => {
+	if (!interaction.isChatInputCommand()) return;
+
+	const command = interaction.client.commands.get(interaction.commandName);
+
+	if (!command) {
+		console.error(`[ERROR]: No command matching ${interaction.commandName} was found.`);
+		return;
+	}
+
+	try {
+		await command.execute(interaction);
+	} catch (error) {
+		console.error(error);
+		if (interaction.replied || interaction.deferred) {
+			await interaction.followUp({ content: 'There was an error while executing this command!', flags: MessageFlags.Ephemeral });
+		} else {
+			await interaction.reply({ content: 'There was an error while executing this command!', flags: MessageFlags.Ephemeral });
+		}
+	}
+});
 
 client.once(Events.ClientReady, readyClient => {
 	console.log(`Ready! Logged in as ${readyClient.user.tag}`);
