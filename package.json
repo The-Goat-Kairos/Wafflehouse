@@ -1,0 +1,22 @@
+{
+  "name": "wafflehouse",
+  "version": "1.0.0",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"There's nothing here.\""
+  },
+  "keywords": [
+    "Discord Bot",
+    "Waffle House",
+    "Vtuber",
+    "Twitch",
+    "Streamer"
+  ],
+  "author": "Kairos",
+  "license": "ISC",
+  "description": "The discord bot for Swiggity Cat's Waffle House.",
+  "dependencies": {
+    "discord.js": "^14.18.0",
+    "dotenv": "^16.4.7"
+  }
+}
