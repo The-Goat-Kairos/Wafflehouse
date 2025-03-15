@@ -7,10 +7,10 @@
     - `!leave wafflehouse` : `You can never leave the wafflehouse`
     - `!make waffle` : `You made a waffle! + 2 credits`
 - Admin commands
-    - ~~Add credits to a user~~
-    - ~~Remove credits from a user~~
-    - ~~Add items to a user~~
-    - ~~Remove items from a user~~
+    - [x] Add credits to a user
+    - [x] Remove credits from a user
+    - [x] Add items to a user
+    - [x] Remove items from a user
 - Random encounters
   - Some random encounters can lead to fights depending on whether the user accepts or not
   - Some random encounters just result in nothing
