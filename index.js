@@ -19,14 +19,15 @@ const client = new Client({
     ]
 });
 client.commands = new Collection();
+client.welcomeChannel = "general";
 
 
-// Load all commands
-const foldersPath = path.join(__dirname, 'commands'); // Get the Commands Folder
-const commandFolders = fs.readdirSync(foldersPath); // Get folders in Commands Folder
+// Load all slash/admin commands
+const foldersPath = path.join(__dirname, 'admincommands'); // Get the AdminCommands Folder
+const commandFolders = fs.readdirSync(foldersPath); // Get folders in AdminCommands Folder
 
 for (const folder of commandFolders) {
-	const commandsPath = path.join(foldersPath, folder); // Get the path of the folders in Commands Folder
+	const commandsPath = path.join(foldersPath, folder); // Get the path of the folders in AdminCommands Folder
 	const commandFiles = fs.readdirSync(commandsPath).filter(file => file.endsWith('.js')); // Get the JS files in the folders
 	for (const file of commandFiles) {
 		const filePath = path.join(commandsPath, file); // Get the path of the JS files
