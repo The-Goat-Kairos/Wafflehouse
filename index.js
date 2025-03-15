@@ -13,22 +13,25 @@ const DISCORD_TOKEN = process.env.DISCORD_TOKEN;
 const client = new Client({
     intents: [
         GatewayIntentBits.Guilds,
+        GatewayIntentBits.GuildMembers,
         GatewayIntentBits.GuildMessages,
         GatewayIntentBits.MessageContent,
     ]
 });
 client.commands = new Collection();
 
-const foldersPath = path.join(__dirname, 'commands');
-const commandFolders = fs.readdirSync(foldersPath);
+
+// Load all commands
+const foldersPath = path.join(__dirname, 'commands'); // Get the Commands Folder
+const commandFolders = fs.readdirSync(foldersPath); // Get folders in Commands Folder
 
 for (const folder of commandFolders) {
-	const commandsPath = path.join(foldersPath, folder);
-	const commandFiles = fs.readdirSync(commandsPath).filter(file => file.endsWith('.js'));
+	const commandsPath = path.join(foldersPath, folder); // Get the path of the folders in Commands Folder
+	const commandFiles = fs.readdirSync(commandsPath).filter(file => file.endsWith('.js')); // Get the JS files in the folders
 	for (const file of commandFiles) {
-		const filePath = path.join(commandsPath, file);
-		const command = require(filePath);
-		// Set a new item in the Collection with the key as the command name and the value as the exported module
+		const filePath = path.join(commandsPath, file); // Get the path of the JS files
+		const command = require(filePath); // Import the command
+
 		if ('data' in command && 'execute' in command) {
 			client.commands.set(command.data.name, command);
 		} else {
@@ -38,7 +41,7 @@ for (const folder of commandFolders) {
 }
 
 
-// Load all event files
+// Load all events
 const eventsPath = path.join(__dirname, 'events');
 const eventFiles = fs.readdirSync(eventsPath).filter(file => file.endsWith('.js'));
 

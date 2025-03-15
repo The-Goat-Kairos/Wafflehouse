@@ -5,8 +5,8 @@ module.exports = {
     async execute(message) {
         if (message.author.bot) return;
 
-        const botMention = message.content.match(/<@!?(\d+)>/);
-        if (!botMention) return;
+        const botMentionRegex = new RegExp(`^<@!?${message.client.user.id}> `);
+        if (!botMentionRegex.test(message.content)) return;
 
         // Get command name and arguments
         const args = message.content.split(/\s+/);
@@ -14,6 +14,6 @@ module.exports = {
 
         // Remove the mention and get clean arguments
         const cleanArgs = args.slice(2);
-        await message.reply(`Command: ${commandName},\n Arguments: ${cleanArgs}`);
+        await message.reply(`Command: ${commandName},\nArguments: ${cleanArgs}`);
     }
 }
