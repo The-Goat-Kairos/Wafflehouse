@@ -18,23 +18,44 @@ const client = new Client({
         GatewayIntentBits.MessageContent,
     ]
 });
-client.commands = new Collection();
+client.adminCommands = new Collection();
+client.userCommands = new Collection();
 client.welcomeChannel = "general";
 
 
-// Load all slash/admin commands
-const foldersPath = path.join(__dirname, 'admincommands'); // Get the AdminCommands Folder
-const commandFolders = fs.readdirSync(foldersPath); // Get folders in AdminCommands Folder
+// Load all slash/admin adminCommands
+const adminCommandsPath = path.join(__dirname, 'admincommands'); // Get the AdminCommands Folder
+const adminCommandFolders = fs.readdirSync(adminCommandsPath); // Get folders in AdminCommands Folder
 
-for (const folder of commandFolders) {
-	const commandsPath = path.join(foldersPath, folder); // Get the path of the folders in AdminCommands Folder
+for (const folder of adminCommandFolders) {
+	const commandsPath = path.join(adminCommandsPath, folder); // Get the path of the folders in AdminCommands Folder
 	const commandFiles = fs.readdirSync(commandsPath).filter(file => file.endsWith('.js')); // Get the JS files in the folders
 	for (const file of commandFiles) {
 		const filePath = path.join(commandsPath, file); // Get the path of the JS files
 		const command = require(filePath); // Import the command
 
 		if ('data' in command && 'execute' in command) {
-			client.commands.set(command.data.name, command);
+			client.adminCommands.set(command.data.name, command);
+		} else {
+			console.log(`[WARNING]: The command at ${filePath} is missing a required "data" or "execute" property.`);
+		}
+	}
+}
+
+
+// Load all user commands
+const userCommandsPath = path.join(__dirname, 'usercommands');
+const userCommandFolders = fs.readdirSync(userCommandsPath);
+
+for (const folder of userCommandFolders) {
+	const commandsPath = path.join(userCommandsPath, folder); // Get the path of the folders in AdminCommands Folder
+	const commandFiles = fs.readdirSync(commandsPath).filter(file => file.endsWith('.js')); // Get the JS files in the folders
+	for (const file of commandFiles) {
+		const filePath = path.join(commandsPath, file); // Get the path of the JS files
+		const command = require(filePath); // Import the command
+
+		if ('data' in command && 'execute' in command) {
+			client.userCommands.set(command.data.name, command);
 		} else {
 			console.log(`[WARNING]: The command at ${filePath} is missing a required "data" or "execute" property.`);
 		}

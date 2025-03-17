@@ -9,7 +9,7 @@ const CLIENT_ID = process.env.CLIENT_ID;
 const SERVER_ID = process.env.SERVER_ID;
 
 const commands = [];
-const foldersPath = path.join(__dirname, 'commands'); // Get commands folder
+const foldersPath = path.join(__dirname, 'admincommands'); // Get commands folder
 const commandFolders = fs.readdirSync(foldersPath); // Find folders in commands folder
 
 for (const folder of commandFolders) {
