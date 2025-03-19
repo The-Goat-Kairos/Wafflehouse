@@ -43,6 +43,7 @@ for (const folder of adminCommandFolders) {
 }
 
 
+
 // Load all user commands
 const userCommandsPath = path.join(__dirname, 'usercommands');
 const userCommandFolders = fs.readdirSync(userCommandsPath);
