@@ -13,6 +13,6 @@ module.exports = {
         const channel = member.guild.channels.cache.find(ch => ch.name === client.welcomeChannel);
         if (!channel) return;
 
-        await channel.send(`Welcome to the server, ${member}!`);
+        await channel.send(`Welcome to your first day at the waffle house, ${member}! Your first shift is in an hour.`);
     }
 }
