@@ -3,9 +3,9 @@
     - Users can spend credits on items
     - Shop System
 - funny useless commands
-    - `!8ball`
-    - `!leave wafflehouse` : `You can never leave the wafflehouse`
-    - `!make waffle` : `You made a waffle! + 2 credits`
+    - [x] `!8ball`
+    - [x] `!leave wafflehouse` : `You can never leave the wafflehouse`
+    - [ ] `!make waffle` : `You made a waffle! + 2 credits`
 - Admin commands
     - [x] Add credits to a user
     - [x] Remove credits from a user

@@ -26,7 +26,5 @@ module.exports = {
                 await message.reply('There was an error trying to execute that command!');
             }
         }
-
-        await message.reply(`Command: ${commandName},\nArguments: ${cleanArgs}`);
     }
 }
