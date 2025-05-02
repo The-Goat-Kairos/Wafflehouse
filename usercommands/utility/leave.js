@@ -8,6 +8,6 @@ module.exports = {
 		// message.user is the object representing the User who ran the command
 		// message.member is the GuildMember object, which represents the user in the specific guild
 
-        await message.reply(`Oh, honey, you can't leave this place. Don't try this shit again.`);
+        await message.reply(`Oh, honey, you know you can't leave this place. **Don't try that shit again.**`);
 	},
 };
