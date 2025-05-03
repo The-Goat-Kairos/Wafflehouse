@@ -1,14 +1,54 @@
 const { Events } = require('discord.js');
 const db = require('../db.js');
 
+const userMessages = new Map(); // Map of users to their latest message time
+const TIMEBEFOREREMOVAL = 15000; // 15 seconds in milliseconds
+const OPTIMALMESSAGERATESINGLE = 1500; // 1.5 seconds in milliseconds
+const OPTIMALMESSAGERATEMULTIPLE = 1000; // 1 second in milliseconds
+let messageCount = 0;
+
+function shouldIncreaseMessageCount(difference, target) {
+    const maxDistance = target;
+    const distance = Math.abs(difference - target);
+
+    const probability = Math.max(0, 1 - (distance / maxDistance));
+    const randomValue = Math.random();
+
+    if (randomValue < probability) {
+        return true;
+    }
+    return false;
+}
+
 module.exports = {
     name: Events.MessageCreate,
     async execute(message) {
         if (message.author.bot) return;
 
+        const now = Date.now();
+        const difference = now - userMessages.get(message.author.id); // Get the difference between now and their last message
+        userMessages.set(message.author.id, Date.now()); // Set their new last message time
+        const uniqueUsers = [...userMessages.keys()]; // Get the unique users.
+        const recentUsers = uniqueUsers.filter(userId => (now - userMessages.get(userId)) <= TIMEBEFOREREMOVAL); // Get the unique users who have said something in the last 15 seconds.
+
+        if (recentUsers.length === 1) {
+            if (shouldIncreaseMessageCount(difference, OPTIMALMESSAGERATESINGLE)) {
+                messageCount++;
+            }
+        } else if (recentUsers.length > 1) {
+            if (shouldIncreaseMessageCount(difference, OPTIMALMESSAGERATEMULTIPLE)) {
+                messageCount++;
+            }
+        }
+
+        if (messageCount === 24) {
+            randomMessageEvent(message);
+            messageCount = 0;
+        }
+
+        // Common Command Handling
         const botMentionRegex = new RegExp(`^<@!?${message.client.user.id}> `);
         if (!botMentionRegex.test(message.content)) {
-            randomMessageEvent(message);
             return;
         }
 
@@ -34,17 +74,13 @@ module.exports = {
 }
 
 async function randomMessageEvent(message) {
-    const chance = Math.random();
-
-    if (chance < 1) {
-        //for (let i = 0; i < events.length; i++) {
-        //    console.log(`Message: \`${events[i].message}\`. Points: ${events[i].amount}.`);
-        //}
-        console.log(events.length);
-        const randomEvent = events[Math.floor(Math.random() * events.length)];
-        db.prepare('UPDATE players SET credits = credits + ? WHERE user_id = ?').run(randomEvent.amount, message.author.id);
-        await message.reply(randomEvent.message);
-    }
+    //for (let i = 0; i < events.length; i++) {
+    //    console.log(`Message: \`${events[i].message}\`. Points: ${events[i].amount}.`);
+    //}
+    //console.log(events.length);
+    const randomEvent = events[Math.floor(Math.random() * events.length)];
+    db.prepare('UPDATE players SET credits = credits + ? WHERE user_id = ?').run(randomEvent.amount, message.author.id);
+    await message.reply(randomEvent.message);
 }
 
 const events = [
