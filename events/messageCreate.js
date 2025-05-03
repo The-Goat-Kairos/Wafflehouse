@@ -1,4 +1,4 @@
-const { Events } = require('discord.js');
+const { EmbedBuilder, Events } = require('discord.js');
 const db = require('../db.js');
 
 const userMessages = new Map(); // Map of users to their latest message time
@@ -25,6 +25,7 @@ module.exports = {
     async execute(message) {
         if (message.author.bot) return;
 
+        // Chance to trigger a random event
         const now = Date.now();
         const difference = now - userMessages.get(message.author.id); // Get the difference between now and their last message
         userMessages.set(message.author.id, Date.now()); // Set their new last message time
@@ -41,7 +42,7 @@ module.exports = {
             }
         }
 
-        if (messageCount === 24) {
+        if (messageCount === 1) {
             randomMessageEvent(message);
             messageCount = 0;
         }
@@ -80,7 +81,24 @@ async function randomMessageEvent(message) {
     //console.log(events.length);
     const randomEvent = events[Math.floor(Math.random() * events.length)];
     db.prepare('UPDATE players SET credits = credits + ? WHERE user_id = ?').run(randomEvent.amount, message.author.id);
-    await message.reply(randomEvent.message);
+
+    const wonCredits = randomEvent.amount >= 0;
+    const titleMessage = `${wonCredits ? "Congratulations" : "So sorry"}, ${message.author.globalName}${wonCredits ? "!" : "."}`;
+    const pointsMessage = `You ${wonCredits ? "gain" : "lose"} ${Math.abs(randomEvent.amount)} credit${randomEvent.amount == 1 ? "" : "s"}.`;
+
+    const embed = new EmbedBuilder()
+        .setColor(0x0099FF)
+        .setTitle(titleMessage)
+        .setDescription(`${randomEvent.message}\n\n${pointsMessage}`)
+        //.addFields(
+        //    { name: 'Regular field title', value: 'Some value here' },
+        //    { name: '\u200B', value: '\u200B' },
+        //    { name: 'Inline field title', value: 'Some value here', inline: true },
+        //    { name: 'Inline field title', value: 'Some value here', inline: true },
+        //)
+
+    await message.reply({ embeds: [embed] });
+    //await message.reply(randomEvent.message);
 }
 
 const events = [
@@ -359,6 +377,10 @@ const events = [
     {
         message: "Karen.",
         amount: -2,
+    },
+    {
+        message: "The mad clown puppet from Lies of P showed up to the waffle house. You sigh and type '!skill+'.",
+        amount: 0,
     },
     {
         message: `A customer leaned back and sighed, "I love the smell of waffles in the morning..." It warms your heart but nothing else happens.`,
