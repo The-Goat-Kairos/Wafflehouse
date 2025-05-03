@@ -53,7 +53,7 @@ for (const folder of userCommandFolders) {
 	const commandFiles = fs.readdirSync(commandsPath).filter(file => file.endsWith('.js')); // Get the JS files in the folders
 	for (const file of commandFiles) {
 		const filePath = path.join(commandsPath, file); // Get the path of the JS files
-		const command = require(filePath); // Import the command
+		const command = require(filePath); // Import the command (try catch issue?)
 
 		if ('data' in command && 'execute' in command) {
 			client.userCommands.set(command.data.name, command);

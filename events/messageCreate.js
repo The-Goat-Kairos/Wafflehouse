@@ -90,12 +90,6 @@ async function randomMessageEvent(message) {
         .setColor(0x0099FF)
         .setTitle(titleMessage)
         .setDescription(`${randomEvent.message}\n\n${pointsMessage}`)
-        //.addFields(
-        //    { name: 'Regular field title', value: 'Some value here' },
-        //    { name: '\u200B', value: '\u200B' },
-        //    { name: 'Inline field title', value: 'Some value here', inline: true },
-        //    { name: 'Inline field title', value: 'Some value here', inline: true },
-        //)
 
     await message.reply({ embeds: [embed] });
     //await message.reply(randomEvent.message);

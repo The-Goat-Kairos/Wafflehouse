@@ -1,13 +1,13 @@
-const { SlashCommandBuilder } = require('discord.js');
 const fs = require('node:fs');
 const path = require('node:path');
 
 module.exports = {
-	data: new SlashCommandBuilder()
-		.setName('8ball')
-		.setDescription('Ask the magic 8ball a question'),
+	data: {
+		"name": "8ball",
+		"description": "Ask the magic 8ball a question!"
+    },
 	async execute(message, _) {
-        const responsesPath = path.join(__dirname, '8balloptions.txt'); // Get the AdminCommands Folder
+        const responsesPath = path.join(__dirname, '8balloptions.txt'); // Get the 8balloptions file
         const responses = fs.readFileSync(responsesPath).toString().split("\n");
 
         let randomIndex = Math.floor(Math.random() * responses.length);
