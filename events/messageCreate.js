@@ -1,4 +1,5 @@
 const { Events } = require('discord.js');
+const MessageEvents = require('../handlers/MessageEvents.js');
 
 const userMessages = new Map(); // Map of users to their latest message time
 const TIME_BEFORE_REMOVAL = 15000; // 15 seconds in milliseconds
@@ -46,7 +47,7 @@ module.exports = {
             }
 
             if (messageCount === MESSAGE_AMOUNT) {
-                MessageEvents.randomStandardEvent(message);
+                MessageEvents.triggerRandomEvent(message);
                 messageCount = 0;
             }
             return;

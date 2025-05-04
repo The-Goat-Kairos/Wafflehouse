@@ -2,12 +2,33 @@ const { EmbedBuilder } = require('discord.js');
 const db = require('../db.js');
 
 class MessageEvents {
-    static async randomStandardEvent(message) {
-        //for (let i = 0; i < standardEvents.length; i++) {
-        //    console.log(`Message: \`${standardEvents[i].message}\`. Points: ${standardEvents[i].amount}.`);
+    static async triggerRandomEvent(message) {
+        this.randomStandardEvent(message);
+        //let randomNum = Math.floor(Math.random()*100) + 1;
+        //
+        //if (randomNum <= 50) {
+        //    this.randomStandardEvent(message);
+        //} else if (randomNum <= 80) {
+        //    this.randomOptionEvent(message);
+        //} else {
+        //    this.randomBattleEvent(message);
         //}
-        //console.log(standardEvents.length);
-        const randomEvent = standardEvents[Math.floor(Math.random() * standardEvents.length)];
+    }
+
+    static async randomOptionEvent(message) {
+
+    }
+
+    static async randomBattleEvent(message) {
+
+    }
+
+    static async randomStandardEvent(message) {
+        //for (let i = 0; i < this.standardEvents.length; i++) {
+        //    console.log(`Message: \`${this.standardEvents[i].message}\`. Points: ${this.standardEvents[i].amount}.`);
+        //}
+        //console.log(this.standardEvents.length);
+        const randomEvent = this.standardEvents[Math.floor(Math.random() * this.standardEvents.length)];
         db.prepare('UPDATE players SET credits = credits + ? WHERE user_id = ?').run(randomEvent.amount, message.author.id);
 
         const wonCredits = randomEvent.amount >= 0;
