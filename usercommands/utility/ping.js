@@ -1,4 +1,4 @@
-const { SlashCommandBuilder } = require('discord.js');
+const { EmbedBuilder } = require('discord.js');
 
 module.exports = {
 	data: {
@@ -9,6 +9,11 @@ module.exports = {
 		// message.user is the object representing the User who ran the command
 		// message.member is the GuildMember object, which represents the user in the specific guild
 
-        await message.reply(`Pong! **${Date.now() - message.createdTimestamp}ms.**`);
+        const embed = new EmbedBuilder()
+            .setColor(0x0099FF)
+            .setTitle("Pong!")
+            .setDescription(`${Date.now() - message.createdTimestamp}ms.`)
+
+        await message.reply({ embeds: [embed] });
 	},
 };

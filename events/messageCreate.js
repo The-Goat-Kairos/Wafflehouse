@@ -25,34 +25,35 @@ module.exports = {
     async execute(message) {
         if (message.author.bot) return;
 
-        // Chance to trigger a random event
-        const now = Date.now();
-        const difference = now - userMessages.get(message.author.id); // Get the difference between now and their last message
-        userMessages.set(message.author.id, Date.now()); // Set their new last message time
-        const uniqueUsers = [...userMessages.keys()]; // Get the unique users.
-        const recentUsers = uniqueUsers.filter(userId => (now - userMessages.get(userId)) <= TIMEBEFOREREMOVAL); // Get the unique users who have said something in the last 15 seconds.
 
-        if (recentUsers.length === 1) {
-            if (shouldIncreaseMessageCount(difference, OPTIMALMESSAGERATESINGLE)) {
-                messageCount++;
-            }
-        } else if (recentUsers.length > 1) {
-            if (shouldIncreaseMessageCount(difference, OPTIMALMESSAGERATEMULTIPLE)) {
-                messageCount++;
-            }
-        }
-
-        if (messageCount === 1) {
-            randomMessageEvent(message);
-            messageCount = 0;
-        }
-
-        // Common Command Handling
         const botMentionRegex = new RegExp(`^<@!?${message.client.user.id}> `);
-        if (!botMentionRegex.test(message.content)) {
+        if (!botMentionRegex.test(message.content)) { // If not mentioning this bot
+            // Random Event Handling
+            // Chance to trigger a random event
+            const now = Date.now();
+            const difference = now - userMessages.get(message.author.id); // Get the difference between now and their last message
+            userMessages.set(message.author.id, Date.now()); // Set their new last message time
+            const uniqueUsers = [...userMessages.keys()]; // Get the unique users.
+            const recentUsers = uniqueUsers.filter(userId => (now - userMessages.get(userId)) <= TIMEBEFOREREMOVAL); // Get the unique users who have said something in the last 15 seconds.
+
+            if (recentUsers.length === 1) {
+                if (shouldIncreaseMessageCount(difference, OPTIMALMESSAGERATESINGLE)) {
+                    messageCount++;
+                }
+            } else if (recentUsers.length > 1) {
+                if (shouldIncreaseMessageCount(difference, OPTIMALMESSAGERATEMULTIPLE)) {
+                    messageCount++;
+                }
+            }
+
+            if (messageCount === 24) {
+                randomMessageEvent(message);
+                messageCount = 0;
+            }
             return;
         }
 
+        // Common Command Handling
         // Get command name and arguments
         const args = message.content.split(/\s+/);
         const commandName = args[1]?.toLowerCase();
