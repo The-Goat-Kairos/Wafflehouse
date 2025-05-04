@@ -2,6 +2,7 @@ const { SlashCommandBuilder } = require('discord.js');
 const db = require('../../db.js');
 
 module.exports = {
+    category: 'stats',
 	data: new SlashCommandBuilder()
 		.setName('toggle')
 		.setDescription('Disable or enable events for you'),

@@ -10,7 +10,7 @@ module.exports = {
 		// message.member is the GuildMember object, which represents the user in the specific guild
 
         const embed = new EmbedBuilder()
-            .setColor(0x0099FF)
+            .setColor(message.member.displayHexColor)
             .setTitle("Pong!")
             .setDescription(`${Date.now() - message.createdTimestamp}ms.`)
 

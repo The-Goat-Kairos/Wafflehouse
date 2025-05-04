@@ -15,7 +15,7 @@ module.exports = {
         let randomIndex = Math.floor(Math.random() * responses.length);
 
         const embed = new EmbedBuilder()
-            .setColor(0x0099FF)
+            .setColor(message.member.displayHexColor)
             .setTitle(":8ball: The magic eight-ball says...")
             .setDescription(responses[randomIndex])
 

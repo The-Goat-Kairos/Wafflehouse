@@ -1,6 +1,7 @@
 const { SlashCommandBuilder } = require('discord.js');
 
 module.exports = {
+    category: 'utility',
 	data: new SlashCommandBuilder()
 		.setName('reload')
 		.setDescription('Reloads a command.')
@@ -10,7 +11,7 @@ module.exports = {
 				.setRequired(true)),
 	async execute(interaction) {
 		const commandName = interaction.options.getString('command', true).toLowerCase();
-		const command = interaction.client.commands.get(commandName);
+		const command = interaction.client.adminCommands.get(commandName);
 
 		if (!command) {
 			return interaction.reply(`There is no command with name \`${commandName}\`!`);
@@ -20,7 +21,7 @@ module.exports = {
 
         try {
             const newCommand = require(`../${command.category}/${command.data.name}.js`);
-            interaction.client.commands.set(newCommand.data.name, newCommand);
+            interaction.client.adminCommands.set(newCommand.data.name, newCommand);
             await interaction.reply(`Command \`${newCommand.data.name}\` was reloaded!`);
         } catch (error) {
             console.error(error);

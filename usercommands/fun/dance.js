@@ -42,7 +42,7 @@ module.exports = {
         const currentIndex = userState.index;
 
         const embed = new EmbedBuilder()
-            .setColor(0x0099FF)
+            .setColor(message.member.displayHexColor)
             .setTitle("Dance")
             .setDescription(danceMessages[currentIndex])
 

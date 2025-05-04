@@ -2,6 +2,7 @@ const { SlashCommandBuilder, MessageFlags } = require('discord.js');
 const db = require('../../db.js');
 
 module.exports = {
+    category: 'stats',
     data: new SlashCommandBuilder()
         .setName('setcredits')
         .setDescription('Set the credits of a user.')

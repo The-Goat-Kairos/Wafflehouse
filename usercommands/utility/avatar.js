@@ -19,7 +19,7 @@ module.exports = {
             // If it's not a mention, try to fetch the user by ID
             user = message.guild.members.cache.get(userArgument)?.user;
             if (!user) {
-                await message.reply("I couldn't find that user, so here is your avatar. :smiley:");
+                await message.reply("I couldn't find that user, so here is your avatar! :smiley:");
                 user = message.author;
             }
         } else {

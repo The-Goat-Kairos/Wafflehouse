@@ -10,7 +10,7 @@ module.exports = {
         const credits = db.prepare('SELECT credits FROM players WHERE user_id = ?').get(message.author.id);
 
         const embed = new EmbedBuilder()
-            .setColor(0x0099FF)
+            .setColor(message.member.displayHexColor)
             .setTitle(`${message.author.globalName}'s Balance`)
             .addFields({ name: 'Credits', value: `${credits.credits}`, inline: true })
             .setThumbnail(message.author.avatarURL())
