@@ -1,3 +1,5 @@
+const { EmbedBuilder } = require('discord.js');
+
 const fs = require('node:fs');
 const path = require('node:path');
 
@@ -11,6 +13,12 @@ module.exports = {
         const responses = fs.readFileSync(responsesPath).toString().split("\n");
 
         let randomIndex = Math.floor(Math.random() * responses.length);
-        await message.reply(`<@!${message.author.id}>, ${responses[randomIndex]}`);
+
+        const embed = new EmbedBuilder()
+            .setColor(0x0099FF)
+            .setTitle(":8ball: The magic eight-ball says...")
+            .setDescription(responses[randomIndex])
+
+        await message.reply({ embeds: [embed] });
 	},
 };

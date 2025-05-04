@@ -59,14 +59,14 @@ module.exports = {
         const commandName = args[1]?.toLowerCase();
 
         // Remove the mention and get clean arguments
-        const cleanArgs = args.slice(2);
+        const cleanArgs = args.slice(2) || [];
 
         // Check if command in client.userCommands
         if (message.client.userCommands.has(commandName)) {
             const command = message.client.userCommands.get(commandName);
 
             try {
-                await command.execute(message, ...cleanArgs);
+                await command.execute(message, cleanArgs);
             } catch (error) {
                 console.error(error);
                 await message.reply('There was an error trying to execute that command!');

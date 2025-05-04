@@ -15,9 +15,16 @@ module.exports = {
             return interaction.reply({ content: 'You cannot select a bot!', ephemeral: true });
         }
 
+        const member = await interaction.guild.members.fetch(target.id).catch(_ => {
+            return interaction.reply({ content: "You cannot get information from someone not in the server", ephemeral: true });
+        });
+
+        // target has type User
+        // member has type GuildMember
+
         const credits = db.prepare('SELECT credits FROM players WHERE user_id = ?').get(target.id);
         await interaction.reply({
-                content: `User ${target.globalName} has ${credits.credits} credits.`,
+            content: `User: ${target.globalName} (username: ${target.username})\nID: ${target.id}\nColor: ${member.displayHexColor}\nJoined at: ${member.joinedAt}\nCreated at: ${target.createdAt}\nCredits: ${credits.credits}`,
                 flags: MessageFlags.Ephemeral
                 });
         //
