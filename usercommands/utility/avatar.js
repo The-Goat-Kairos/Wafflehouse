@@ -29,7 +29,7 @@ module.exports = {
 
         const embed = new EmbedBuilder()
             .setColor(hexToRgb(message.member.displayHexColor))
-            .setTitle(`${user.globalName != null ? user.globalName : user.displayName}`)
+            .setTitle(`${user.globalName != null ? user.globalName : user.displayName}'s avatar`)
             .setImage(user.displayAvatarURL({ dynamic: true, size: 1024 })); // Set the avatar image
 
         await message.reply({ embeds: [embed] });
