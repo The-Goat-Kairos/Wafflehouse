@@ -46,7 +46,7 @@ module.exports = {
             }
 
             if (messageCount === MESSAGE_AMOUNT) {
-                MessageEvents.randomStandardMessageEvent(message);
+                MessageEvents.randomStandardEvent(message);
                 messageCount = 0;
             }
             return;

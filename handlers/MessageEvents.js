@@ -2,7 +2,7 @@ const { EmbedBuilder } = require('discord.js');
 const db = require('../db.js');
 
 class MessageEvents {
-    static async randomStandardMessageEvent(message) {
+    static async randomStandardEvent(message) {
         //for (let i = 0; i < standardEvents.length; i++) {
         //    console.log(`Message: \`${standardEvents[i].message}\`. Points: ${standardEvents[i].amount}.`);
         //}
