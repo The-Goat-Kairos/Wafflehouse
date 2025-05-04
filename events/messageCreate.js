@@ -28,6 +28,7 @@ module.exports = {
 
         const botMentionRegex = new RegExp(`^<@!?${message.client.user.id}> `);
         if (!botMentionRegex.test(message.content)) { // If not mentioning this bot
+            // Might want to extract this into a function but I think it should be fine
             // Random Event Handling
             // Chance to trigger a random event
             const now = Date.now();
