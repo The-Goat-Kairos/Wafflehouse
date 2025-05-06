@@ -1,5 +1,6 @@
 const { EmbedBuilder } = require('discord.js');
 const standardEvents = require('./standardEvents.js');
+const optionEvents = require('./optionEvents.js');
 const db = require('../db.js')
 
 class MessageEvents {
@@ -16,7 +17,7 @@ class MessageEvents {
     }
 
     static async randomOptionEvent(message) {
-
+        const randomEvent = optionEvents[Math.floor(Math.random() * optionEvents.length)];
     }
 
     static async randomBattleEvent(message) {
