@@ -11,8 +11,6 @@ function displayOptionEvents(events) {
                 console.log(`     - Result ${resultIndex + 1}: ${result.message} (Gain: ${result.gain}, Weight: ${result.weight})`);
             });
         });
-
-        console.log(""); // Add a blank line for better readability
     });
 }
 
