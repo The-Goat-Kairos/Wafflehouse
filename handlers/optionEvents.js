@@ -117,6 +117,19 @@ const optionEvents = [
         ]
     ),
     new OptionEvent(
+        "A group of mysterious cloaked figures who claim to hail from the forests enter the establishment.",
+        [
+            new Option("Serve them like normal", [
+                new OptionResult("Nothing out of the ordinary happens and they even tip you generously.", 10, 0.75),
+                new OptionResult("They are displeased and drag a random customer deep into the forests.", -10, 0.25),
+            ]),
+            new Option("Call the local witch hunters", [
+                new OptionResult("One of the figures intercepts you before you can make the call and you are sacrificed ceremoniously.", -25, 0.75),
+                new OptionResult("The group is successfully apprehended and they pay you handsomly for your service.", 25, 0.25),
+            ])
+        ]
+    ),
+    new OptionEvent(
         "There is a power surge in Waffle House during a busy night.",
         [
             new Option("Stay and help", [
