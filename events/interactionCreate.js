@@ -1,4 +1,4 @@
-const { Events, MessageFlags } = require('discord.js');
+const { Events, MessageFlags, EmbedBuilder } = require('discord.js');
 const optionEvents = require('../handlers/optionEvents.js');
 
 module.exports = {
@@ -12,7 +12,16 @@ module.exports = {
                 event.options.forEach((option) => {
                     if (buttonId === option.optionName) {
                         const optionResult = option.getWeightedRandomValue();
-                        interaction.reply(optionResult.message || "PANIC SOMETHING HAPPENED!!!!");
+                        const gainMessage = `You ${optionResult >= 0 ? "gain" : "lose"} ${Math.abs(optionResult.gain)} credits.`;
+
+                        const optionEventEmbed = new EmbedBuilder()
+                        .setTitle(`You ${option.optionName.toLowerCase()}.`)
+                        .setDescription(`${optionResult.message} \n\n ${gainMessage}` || "PANIC!!!! SOMETHING HAPPENED!!!!")
+                        .setColor(0x0099FF);
+
+                        interaction.reply({
+                            embeds: [optionEventEmbed],
+                        });
                     }
                 });
             });

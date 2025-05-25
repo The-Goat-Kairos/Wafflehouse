@@ -133,8 +133,8 @@ const optionEvents = [
         "There is a power surge in Waffle House during a busy night.",
         [
             new Option("Stay and help", [
-                new OptionResult("The power goes back on a while later and nothing substantial really happened. You got a waffle for helping.", 5, 0.75),
-                new OptionResult("You had trouble calming an old couple, resulting in them storming out of the waffle house.", -5, 0.25),
+                new OptionResult("The power goes back on a while later and nothing substantial really happened. You got a waffle for helping.", 5, 0.85),
+                new OptionResult("You had trouble calming an old couple, resulting in them storming out of the waffle house.", -5, 0.15),
             ]),
             new Option("Panic and leave immediately", [
                 new OptionResult("You trip on the way out and drop your phone!", -15, 0.75),
