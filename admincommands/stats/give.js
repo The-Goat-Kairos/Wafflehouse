@@ -1,10 +1,12 @@
-const { SlashCommandBuilder, MessageFlags } = require('discord.js');
+const { SlashCommandBuilder, MessageFlags, InteractionContextType, PermissionFlagsBits } = require('discord.js');
 const db = require('../../db.js');
 
 module.exports = {
     category: 'stats',
     data: new SlashCommandBuilder()
         .setName('give')
+        .setDefaultMemberPermissions(PermissionFlagsBits.ManageGuild)
+    	.setContexts(InteractionContextType.Guild)
         .setDescription('Give a user something.')
         .addSubcommand(subcommand =>
             subcommand

@@ -1,10 +1,11 @@
-const { SlashCommandBuilder } = require('discord.js');
+const { InteractionContextType, SlashCommandBuilder } = require('discord.js');
 const db = require('../../db.js');
 
 module.exports = {
     category: 'stats',
 	data: new SlashCommandBuilder()
 		.setName('toggle')
+    	.setContexts(InteractionContextType.Guild)
 		.setDescription('Disable or enable events for you'),
 	async execute(interaction) {
         var user = db.prepare('SELECT disabled FROM players WHERE user_id = ?').get(interaction.user.id);

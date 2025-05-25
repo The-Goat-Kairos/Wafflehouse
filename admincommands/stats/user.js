@@ -1,10 +1,11 @@
 const db = require('../../db.js');
-const { SlashCommandBuilder, MessageFlags } = require('discord.js');
+const { InteractionContextType, SlashCommandBuilder, MessageFlags } = require('discord.js');
 
 module.exports = {
     category: 'stats',
 	data: new SlashCommandBuilder()
 		.setName('user')
+    	.setContexts(InteractionContextType.Guild)
 		.setDescription('Provides information about the user.')
         .addUserOption(option => option.setName('target').setDescription('The user').setRequired(true)),
 	async execute(interaction) {

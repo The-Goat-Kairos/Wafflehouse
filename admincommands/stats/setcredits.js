@@ -1,10 +1,12 @@
-const { SlashCommandBuilder, MessageFlags } = require('discord.js');
+const { PermissionFlagsBits, InteractionContextType, SlashCommandBuilder, MessageFlags } = require('discord.js');
 const db = require('../../db.js');
 
 module.exports = {
     category: 'stats',
     data: new SlashCommandBuilder()
         .setName('setcredits')
+        .setDefaultMemberPermissions(PermissionFlagsBits.ManageGuild)
+    	.setContexts(InteractionContextType.Guild)
         .setDescription('Set the credits of a user.')
         .addUserOption(option => option.setName('target').setDescription('The user').setRequired(true))
         .addIntegerOption(option =>
