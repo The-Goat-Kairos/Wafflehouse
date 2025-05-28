@@ -1,11 +1,13 @@
 const { Events, MessageFlags, EmbedBuilder } = require('discord.js');
 const optionEvents = require('../handlers/optionEvents.js');
+const db = require('../db.js');
 
 module.exports = {
 	name: Events.InteractionCreate,
 	async execute(interaction) {
         if (interaction.isButton()) { // Is this a button press?
-            const buttonId = interaction.customId;
+            const buttonId = interaction.customId.split(':')[0];
+            const userId = interaction.customId.split(':')[1];
             if (!buttonId) return;
 
             optionEvents.forEach((event) => {
@@ -18,6 +20,8 @@ module.exports = {
                         .setTitle(`You ${option.optionName.toLowerCase()}.`)
                         .setDescription(`${optionResult.message} \n\n ${gainMessage}` || "PANIC!!!! SOMETHING HAPPENED!!!!")
                         .setColor(0x0099FF);
+
+                        db.prepare('UPDATE players SET credits = ? WHERE user_id = ?').run(optionResult.gain, userId);
 
                         interaction.reply({
                             embeds: [optionEventEmbed],

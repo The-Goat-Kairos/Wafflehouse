@@ -25,7 +25,7 @@ class MessageEvents {
 
         randomEvent.options.forEach((option) => {
             const optionEventButton = new ButtonBuilder()
-                .setCustomId(option.optionName)
+                .setCustomId(option.optionName + ":" + message.member.id)
                 .setLabel(option.optionName)
                 .setStyle(ButtonStyle.Primary);
 
