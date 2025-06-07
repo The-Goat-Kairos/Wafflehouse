@@ -2,22 +2,22 @@ const { EmbedBuilder, ActionRowBuilder, ButtonBuilder, ButtonStyle } = require('
 const standardEvents = require('./standardEvents.js');
 const optionEvents = require('./optionEvents.js');
 const db = require('../db.js')
-const { BattleState, activeBattles } = require("./BattleManager.js");
+const { BattleState } = require("./BattleManager.js");
 
 class MessageEvents {
     static async triggerRandomEvent(message) {
-        //this.randomOptionEvent(message);
-        //return;
+        this.randomBattleEvent(message);
+        return;
 
-        let randomNum = Math.Floor(Math.random()*100) + 1;
+        //let randomNum = Math.Floor(Math.random()*100) + 1;
 
-        if (randomNum <= 50) { // 50% chance
-            this.randomStandardEvent(message);
-        } else if (randomNum <= 80) { // 30%
-            this.randomOptionEvent(message);
-        } else { // 20%
-            this.randomBattleEvent(message);
-        }
+        //if (randomNum <= 50) { // 50% chance
+        //    this.randomStandardEvent(message);
+        //} else if (randomNum <= 80) { // 30%
+        //    this.randomOptionEvent(message);
+        //} else { // 20%
+        //    this.randomBattleEvent(message);
+        //}
     }
 
     static async randomOptionEvent(message) {
@@ -26,7 +26,7 @@ class MessageEvents {
 
         randomEvent.options.forEach((option) => {
             const optionEventButton = new ButtonBuilder()
-                .setCustomId(option.optionName + ":" + message.member.id)
+                .setCustomId(`${option.optionName}:${message.member.id}:option`)
                 .setLabel(option.optionName)
                 .setStyle(ButtonStyle.Primary);
 
@@ -51,23 +51,19 @@ class MessageEvents {
             icon: ":raccoon:"
         }
 
-        const battle = new BattleState(message.member.id, enemy);
+        const activeBattles = message.client.activeBattleStates;
+        //const command = interaction.client.adminCommands.get(interaction.commandName);
+        const battle = new BattleState(message.member.id, enemy, message.guild);
         activeBattles.set(message.member.id, battle);
+        console.log(activeBattles)
 
-        const embed = new EmbedBuilder()
-            .setTitle(`:crossed_swords: A wild ${enemy.name} appears`)
-            .setDescription(`It snarls at you over the waffle counter.\n\n**What do you do?**`)
-            .setColor(message.member.displayHexColor)
-            .addFields([
-                {name: "Your HP", value: `${battle.playerHp}`, inline: true},
-                {name: `${enemy.name}'s HP`, value: `${battle.enemyHp}`, inline: true},
-            ]);
+        const embed = await battle.getEmbed();
 
         const buttons = new ActionRowBuilder().addComponents(
-            new ButtonBuilder().setCustomId(`fight:${battle.userId}`).setLabel("Fight").setStyle(ButtonStyle.Danger),
-            new ButtonBuilder().setCustomId(`syrup:${battle.userId}`).setLabel("Use Syrup").setStyle(ButtonStyle.Primary),
-            new ButtonBuilder().setCustomId(`hashbrown:${battle.userId}`).setLabel("Throw Hashbrown").setStyle(ButtonStyle.Secondary),
-            new ButtonBuilder().setCustomId(`scream:${battle.userId}`).setLabel("Scream").setStyle(ButtonStyle.Secondary),
+            new ButtonBuilder().setCustomId(`fight:${battle.userId}:battle`).setLabel("Fight").setStyle(ButtonStyle.Danger),
+            new ButtonBuilder().setCustomId(`syrup:${battle.userId}:battle`).setLabel("Use Syrup").setStyle(ButtonStyle.Primary),
+            new ButtonBuilder().setCustomId(`hashbrown:${battle.userId}:battle`).setLabel("Throw Hashbrown").setStyle(ButtonStyle.Secondary),
+            new ButtonBuilder().setCustomId(`scream:${battle.userId}:battle`).setLabel("Scream").setStyle(ButtonStyle.Secondary),
         );
 
         await message.reply({

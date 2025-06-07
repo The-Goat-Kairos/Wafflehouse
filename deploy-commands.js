@@ -32,14 +32,14 @@ const rest = new REST().setToken(DISCORD_TOKEN);
 // and deploy your commands!
 (async () => {
 	try {
-		console.log(`Started refreshing ${commands.length} application (/) commands.`);
+		console.log(`[INFO]: Started refreshing ${commands.length} application (/) commands.`);
 
 		const data = await rest.put(
 			Routes.applicationGuildCommands(CLIENT_ID, SERVER_ID),
             // Routes.applicationCommands(CLIENT_ID),
 			{ body: commands },
 		);
-		console.log(`Successfully reloaded ${data.length} application (/) commands.`);
+		console.log(`[INFO]: Successfully reloaded ${data.length} application (/) commands.`);
 	} catch (error) {
 		console.error(`[ERROR]: ${error}`);
 	}

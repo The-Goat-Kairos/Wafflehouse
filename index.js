@@ -21,6 +21,7 @@ const client = new Client({
 client.adminCommands = new Collection();
 client.userCommands = new Collection();
 client.welcomeChannel = "general";
+client.activeBattleStates = new Map();
 
 
 // Load all slash/admin adminCommands
