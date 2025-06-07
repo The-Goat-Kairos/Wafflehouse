@@ -2,19 +2,20 @@ const { EmbedBuilder, ActionRowBuilder, ButtonBuilder, ButtonStyle } = require('
 const standardEvents = require('./standardEvents.js');
 const optionEvents = require('./optionEvents.js');
 const db = require('../db.js')
+const { BattleState, activeBattles } = require("./BattleManager.js");
 
 class MessageEvents {
     static async triggerRandomEvent(message) {
-        this.randomOptionEvent(message);
+        //this.randomOptionEvent(message);
+        //return;
 
-        return;
         let randomNum = Math.Floor(Math.random()*100) + 1;
 
-        if (randomNum <= 50) {
+        if (randomNum <= 50) { // 50% chance
             this.randomStandardEvent(message);
-        } else if (randomNum <= 80) {
+        } else if (randomNum <= 80) { // 30%
             this.randomOptionEvent(message);
-        } else {
+        } else { // 20%
             this.randomBattleEvent(message);
         }
     }
@@ -41,20 +42,38 @@ class MessageEvents {
             embeds: [optionEventEmbed],
             components: [actionRow],
         });
-
-        //console.log(`Event ${index + 1}: ${event.initialMessage}`);
-        //console.log("Options:");
-
-        //event.options.forEach((option, optionIndex) => {
-        //    console.log(`  ${optionIndex + 1}. ${option.optionName}`);
-        //    option.values.forEach((result, resultIndex) => {
-        //        console.log(`     - Result ${resultIndex + 1}: ${result.message} (Gain: ${result.gain}, Weight: ${result.weight})`);
-        //    });
-        //});
     }
 
     static async randomBattleEvent(message) {
+        const enemy = {
+            name: "Raccoon",
+            hp: 30,
+            icon: ":raccoon:"
+        }
 
+        const battle = new BattleState(message.member.id, enemy);
+        activeBattles.set(message.member.id, battle);
+
+        const embed = new EmbedBuilder()
+            .setTitle(`:crossed_swords: A wild ${enemy.name} appears`)
+            .setDescription(`It snarls at you over the waffle counter.\n\n**What do you do?**`)
+            .setColor(message.member.displayHexColor)
+            .addFields([
+                {name: "Your HP", value: `${battle.playerHp}`, inline: true},
+                {name: `${enemy.name}'s HP`, value: `${battle.enemyHp}`, inline: true},
+            ]);
+
+        const buttons = new ActionRowBuilder().addComponents(
+            new ButtonBuilder().setCustomId(`fight:${battle.userId}`).setLabel("Fight").setStyle(ButtonStyle.Danger),
+            new ButtonBuilder().setCustomId(`syrup:${battle.userId}`).setLabel("Use Syrup").setStyle(ButtonStyle.Primary),
+            new ButtonBuilder().setCustomId(`hashbrown:${battle.userId}`).setLabel("Throw Hashbrown").setStyle(ButtonStyle.Secondary),
+            new ButtonBuilder().setCustomId(`scream:${battle.userId}`).setLabel("Scream").setStyle(ButtonStyle.Secondary),
+        );
+
+        await message.reply({
+            embeds: [embed],
+            components: [buttons]
+        });
     }
 
     static async randomStandardEvent(message) {

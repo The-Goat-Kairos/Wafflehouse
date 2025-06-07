@@ -10,8 +10,8 @@ module.exports = {
             const userId = interaction.customId.split(':')[1];
             if (!buttonId) return;
 
-            optionEvents.forEach((event) => {
-                event.options.forEach((option) => {
+            optionEvents.forEach((event) => { // Loop through all optionEvents to check for the right one
+                event.options.forEach((option) => { // Match the options of a optionEvent to the button name. If they match, do whatever
                     if (buttonId === option.optionName) {
                         const optionResult = option.getWeightedRandomValue();
                         const gainMessage = `You ${optionResult >= 0 ? "gain" : "lose"} ${Math.abs(optionResult.gain)} credits.`;
