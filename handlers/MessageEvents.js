@@ -3,6 +3,7 @@ const standardEvents = require('./standardEvents.js');
 const optionEvents = require('./optionEvents.js');
 const db = require('../db.js')
 const { BattleState } = require("./BattleManager.js");
+const { Enemy } = require("./Enemy.js");
 
 class MessageEvents {
     static async triggerRandomEvent(message) {
@@ -45,11 +46,7 @@ class MessageEvents {
     }
 
     static async randomBattleEvent(message) {
-        const enemy = {
-            name: "Raccoon",
-            hp: 30,
-            icon: ":raccoon:"
-        }
+        const enemy = new Enemy("Raccoon", 30, ":raccoon:", "animal")
 
         const activeBattles = message.client.activeBattleStates;
         //const command = interaction.client.adminCommands.get(interaction.commandName);
