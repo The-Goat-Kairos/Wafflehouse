@@ -33,7 +33,7 @@ module.exports = {
         let userState = userDanceStates.get(id);
         const lastTime = userState.timeout;
 
-        console.log(`Now: ${now}, last time: ${lastTime}, Difference: ${Math.abs(now - lastTime)}, boolean: ${Math.abs(now - lastTime) >= danceCooldown}`);
+        //console.log(`Now: ${now}, last time: ${lastTime}, Difference: ${Math.abs(now - lastTime)}, boolean: ${Math.abs(now - lastTime) >= danceCooldown}`);
         if (Math.abs(now - lastTime) >= danceCooldown) { // Check if its been danceCooldown miliseconds
             userDanceStates.set(id, { index: 0, timeout: now }); // Reset your stuff to basic
         }

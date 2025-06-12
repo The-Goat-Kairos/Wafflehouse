@@ -11,7 +11,7 @@ module.exports = {
         const embed = new EmbedBuilder()
             .setColor(message.member.displayHexColor)
             .setTitle("Leave...?")
-            .setDescription(`Oh, honey, you know you can't leave this place. **Don't try this shit again.**`)
+            .setDescription(`Oh, honey, you know you can't leave this place.`)
 
         await message.reply({ embeds: [embed] });
 	},

@@ -16,7 +16,7 @@ module.exports = {
 
         const embed = new EmbedBuilder()
             .setColor(message.member.displayHexColor)
-            .setTitle(":8ball: The magic eight-ball says...")
+            .setTitle(":8ball: The magic 8ball says...")
             .setDescription(responses[randomIndex])
 
         await message.reply({ embeds: [embed] });
