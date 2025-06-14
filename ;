@@ -1,14 +1,9 @@
-const {
-    EmbedBuilder,
-    ActionRowBuilder,
-    ButtonBuilder,
-    ButtonStyle,
-} = require("discord.js");
-const standardEvents = require("./standardEvents.js");
-const optionEvents = require("./optionEvents.js");
-const db = require("../db.js");
-const {BattleState} = require("./BattleManager.js");
-const {Enemy} = require("./Enemy.js");
+const { EmbedBuilder, ActionRowBuilder, ButtonBuilder, ButtonStyle } = require('discord.js');
+const standardEvents = require('./standardEvents.js');
+const optionEvents = require('./optionEvents.js');
+const db = require('../db.js')
+const { BattleState } = require("./BattleManager.js");
+const { Enemy } = require("./Enemy.js");
 
 class MessageEvents {
     static async triggerRandomEvent(message) {
@@ -27,11 +22,10 @@ class MessageEvents {
     }
 
     static async randomOptionEvent(message) {
-        const randomEvent =
-            optionEvents[Math.floor(Math.random() * optionEvents.length)];
-        const actionRow = new ActionRowBuilder();
+        const randomEvent = optionEvents[Math.floor(Math.random() * optionEvents.length)];
+        const actionRow = new ActionRowBuilder()
 
-        randomEvent.options.forEach(option => {
+        randomEvent.options.forEach((option) => {
             const optionEventButton = new ButtonBuilder()
                 .setCustomId(`${option.optionName}:${message.member.id}:option`)
                 .setLabel(option.optionName)
@@ -52,38 +46,26 @@ class MessageEvents {
     }
 
     static async randomBattleEvent(message) {
-        const enemy = new Enemy("Raccoon", 30, ":raccoon:", "animal");
+        const enemy = new Enemy("Raccoon", 30, ":raccoon:", "animal")
 
         const activeBattles = message.client.activeBattleStates;
         //const command = interaction.client.adminCommands.get(interaction.commandName);
         const battle = new BattleState(message.member.id, enemy, message.guild);
         activeBattles.set(message.member.id, battle);
-        console.log(activeBattles);
+        console.log(activeBattles)
 
         const embed = await battle.getEmbed();
 
         const buttons = new ActionRowBuilder().addComponents(
-            new ButtonBuilder()
-                .setCustomId(`fight:${battle.userId}:battle`)
-                .setLabel("Fight")
-                .setStyle(ButtonStyle.Danger),
-            new ButtonBuilder()
-                .setCustomId(`syrup:${battle.userId}:battle`)
-                .setLabel("Use Syrup")
-                .setStyle(ButtonStyle.Primary),
-            new ButtonBuilder()
-                .setCustomId(`hashbrown:${battle.userId}:battle`)
-                .setLabel("Throw Hashbrown")
-                .setStyle(ButtonStyle.Secondary),
-            new ButtonBuilder()
-                .setCustomId(`scream:${battle.userId}:battle`)
-                .setLabel("Scream")
-                .setStyle(ButtonStyle.Secondary)
+            new ButtonBuilder().setCustomId(`fight:${battle.userId}:battle`).setLabel("Fight").setStyle(ButtonStyle.Danger),
+            new ButtonBuilder().setCustomId(`syrup:${battle.userId}:battle`).setLabel("Use Syrup").setStyle(ButtonStyle.Primary),
+            new ButtonBuilder().setCustomId(`hashbrown:${battle.userId}:battle`).setLabel("Throw Hashbrown").setStyle(ButtonStyle.Secondary),
+            new ButtonBuilder().setCustomId(`scream:${battle.userId}:battle`).setLabel("Scream").setStyle(ButtonStyle.Secondary),
         );
 
         await message.reply({
             embeds: [embed],
-            components: [buttons],
+            components: [buttons]
         });
     }
 
@@ -92,22 +74,19 @@ class MessageEvents {
         //    console.log(`Message: \`${standardEvents[i].message}\`. Points: ${standardEvents[i].amount}.`);
         //}
         //console.log(standardEvents.length);
-        const randomEvent =
-            standardEvents[Math.floor(Math.random() * standardEvents.length)];
-        db.prepare(
-            "UPDATE players SET credits = credits + ? WHERE user_id = ?"
-        ).run(randomEvent.amount, message.author.id);
+        const randomEvent = standardEvents[Math.floor(Math.random() * standardEvents.length)];
+        db.prepare('UPDATE players SET credits = credits + ? WHERE user_id = ?').run(randomEvent.amount, message.author.id);
 
         const wonCredits = randomEvent.amount >= 0;
         const titleMessage = `${wonCredits ? "Congratulations" : "So sorry"}, ${message.author.globalName}${wonCredits ? "!" : "."}`;
         const pointsMessage = `You ${wonCredits ? "gain" : "lose"} ${Math.abs(randomEvent.amount)} credit${randomEvent.amount == 1 ? "" : "s"}.`;
 
         const embed = new EmbedBuilder()
-            .setColor(message.member.displayHexColor)
-            .setTitle(titleMessage)
-            .setDescription(`${randomEvent.message}\n\n${pointsMessage}`);
+        .setColor(message.member.displayHexColor)
+        .setTitle(titleMessage)
+        .setDescription(`${randomEvent.message}\n\n${pointsMessage}`)
 
-        await message.reply({embeds: [embed]});
+        await message.reply({ embeds: [embed] });
     }
 
     // There will be 3 types of events:
