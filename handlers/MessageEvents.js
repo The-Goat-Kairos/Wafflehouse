@@ -63,7 +63,6 @@ class MessageEvents {
 
         const embed = await battle.getBattleEmbed();
 
-        // buttonId: 'battle:fight:userId:battleId=userId'
         const buttons = BattleState.getButtons();
 
         await message.reply({
