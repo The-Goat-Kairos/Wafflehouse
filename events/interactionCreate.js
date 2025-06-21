@@ -8,14 +8,44 @@ const eventHandlers = {
 };
 
 async function handleBattleEvent(interaction) {
+    const _ = interaction.customId.split(":")[0]; // option or battle
+    const action = interaction.customId.split(":")[1];
+    const [userId, battleId] = [interaction.customId.split(":")[2]];
 
+    if (!action || !userId || !battleId) return;
+
+    if (interaction.user.id !== userId) {
+        return interaction.reply({ content: "You cannot interact with this button.", ephemeral: true });
+    }
+
+    const activeBattles = interaction.client.activeBattleStates;
+    const battle = activeBattles.get(battleId);
+
+    if (!battle) {
+        return interaction.reply("This battle wasn't found");
+    }
+    // Actions are fight, syrup, hashbrown, scream
+    if (action === "fight") {
+        battle.attack();
+    } else if (action === "syrup") {
+        battle.syrup();
+    } else if (action === "hasbrown") {
+        battle.hashbrown();
+    } else if (action === "scream") {
+        battle.scream();
+    }
 }
 
 async function handleOptionEvent(interaction) {
     const _ = interaction.customId.split(":")[0]; // option or battle
     const buttonId = interaction.customId.split(":")[1];
     const userId = interaction.customId.split(":")[2];
-    if (!buttonId) return;
+
+    if (!buttonId || !userId) return;
+
+    if (interaction.user.id !== userId) {
+        return interaction.reply({ content: "You cannot interact with this button.", ephemeral: true });
+    }
 
     optionEvents.forEach(event => {
         // Loop through all optionEvents to check for the right one
@@ -50,7 +80,7 @@ module.exports = {
     async execute(interaction) {
         if (interaction.isButton()) {
             // Is this a button press?
-            const eventType = interaction.customId.split(':');
+            const eventType = interaction.customId.split(":")[0];
             const handler = eventHandlers[eventType];
 
             if (handler) {

@@ -53,33 +53,18 @@ class MessageEvents {
 
     static async randomBattleEvent(message) {
         const enemy = new Enemy("Raccoon", 30, ":raccoon:", "animal");
+        const [battleId, userId] = [message.member.id]; // battleId=userId=message.member.id
 
         const activeBattles = message.client.activeBattleStates;
         //const command = interaction.client.adminCommands.get(interaction.commandName);
-        const battle = new BattleState(message.member.id, enemy, message.guild);
+        const battle = new BattleState(userId, enemy, message.guild);
         activeBattles.set(message.member.id, battle);
         console.log(activeBattles);
 
-        const embed = await battle.getEmbed();
+        const embed = await battle.getBattleEmbed();
 
-        const buttons = new ActionRowBuilder().addComponents(
-            new ButtonBuilder()
-                .setCustomId(`battle:fight:${battle.userId}`)
-                .setLabel("Fight")
-                .setStyle(ButtonStyle.Danger),
-            new ButtonBuilder()
-                .setCustomId(`battle:syrup:${battle.userId}`)
-                .setLabel("Use Syrup")
-                .setStyle(ButtonStyle.Primary),
-            new ButtonBuilder()
-                .setCustomId(`battle:hashbrown:${battle.userId}`)
-                .setLabel("Throw Hashbrown")
-                .setStyle(ButtonStyle.Secondary),
-            new ButtonBuilder()
-                .setCustomId(`battle:scream:${battle.userId}`)
-                .setLabel("Scream")
-                .setStyle(ButtonStyle.Secondary)
-        );
+        // buttonId: 'battle:fight:userId:battleId=userId'
+        const buttons = BattleState.getButtons();
 
         await message.reply({
             embeds: [embed],
