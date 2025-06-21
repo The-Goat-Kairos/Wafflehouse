@@ -33,7 +33,7 @@ class MessageEvents {
 
         randomEvent.options.forEach(option => {
             const optionEventButton = new ButtonBuilder()
-                .setCustomId(`${option.optionName}:${message.member.id}:option`)
+                .setCustomId(`option:${option.optionName}:${message.member.id}`)
                 .setLabel(option.optionName)
                 .setStyle(ButtonStyle.Primary);
 
@@ -64,19 +64,19 @@ class MessageEvents {
 
         const buttons = new ActionRowBuilder().addComponents(
             new ButtonBuilder()
-                .setCustomId(`fight:${battle.userId}:battle`)
+                .setCustomId(`battle:fight:${battle.userId}`)
                 .setLabel("Fight")
                 .setStyle(ButtonStyle.Danger),
             new ButtonBuilder()
-                .setCustomId(`syrup:${battle.userId}:battle`)
+                .setCustomId(`battle:syrup:${battle.userId}`)
                 .setLabel("Use Syrup")
                 .setStyle(ButtonStyle.Primary),
             new ButtonBuilder()
-                .setCustomId(`hashbrown:${battle.userId}:battle`)
+                .setCustomId(`battle:hashbrown:${battle.userId}`)
                 .setLabel("Throw Hashbrown")
                 .setStyle(ButtonStyle.Secondary),
             new ButtonBuilder()
-                .setCustomId(`scream:${battle.userId}:battle`)
+                .setCustomId(`battle:scream:${battle.userId}`)
                 .setLabel("Scream")
                 .setStyle(ButtonStyle.Secondary)
         );
