@@ -3,8 +3,8 @@ const optionEvents = require("../handlers/optionEvents.js");
 const db = require("../db.js");
 
 const eventHandlers = {
-    "option": handleOptionEvent,
-    "battle": handleBattleEvent,
+    option: handleOptionEvent,
+    battle: handleBattleEvent,
 };
 
 async function handleBattleEvent(interaction) {
@@ -15,24 +15,63 @@ async function handleBattleEvent(interaction) {
     if (!action || !userId || !battleId) return;
 
     if (interaction.user.id !== userId) {
-        return interaction.reply({ content: "You cannot interact with this button.", ephemeral: true });
+        return interaction.reply({
+            content: "You cannot interact with this button.",
+            ephemeral: true,
+        });
     }
 
     const activeBattles = interaction.client.activeBattleStates;
     const battle = activeBattles.get(battleId);
 
     if (!battle) {
-        return interaction.reply("This battle wasn't found");
+        return interaction.reply("This battle was not found");
     }
+
+    let battleMessage;
     // Actions are fight, syrup, hashbrown, scream
     if (action === "fight") {
-        battle.attack();
+        battleMessage = battle.fight();
     } else if (action === "syrup") {
-        battle.syrup();
+        battleMessage = battle.syrup();
     } else if (action === "hasbrown") {
-        battle.hashbrown();
+        battleMessage = battle.hashbrown();
     } else if (action === "scream") {
-        battle.scream();
+        battleMessage = battle.scream();
+    } else if (action === "special") {
+        battleMessage = battle.special();
+    } else {
+        console.error(
+            "Error: Can not find the correct button action in a battle event."
+        );
+        return;
+    }
+
+    battle.endTurn();
+
+    const actionEmbed = new EmbedBuilder()
+        .setDescription(battleMessage)
+        .setColor(interaction.member.displayHexColor);
+
+    // Get the updated battle embed and buttons
+    const battleEmbed = await battle.getBattleEmbed();
+    const buttons = battle.getButtons();
+
+    // Reply with the action message, updated battle embed, and buttons
+    await interaction.reply({
+        embeds: [actionEmbed, battleEmbed],
+        components: [buttons],
+    });
+
+    // Check if the battle is over and handle the end of the battle
+    if (battle.isOver()) {
+        const resultMessage =
+            battle.playerHp <= 0
+                ? "You have been defeated!"
+                : `You defeated the ${battle.enemy.name}!`;
+
+        await interaction.followUp({content: resultMessage, ephemeral: true});
+        activeBattles.delete(battleId); // Remove the battle from active battles
     }
 }
 
@@ -43,7 +82,10 @@ async function handleOptionEvent(interaction) {
     if (!buttonId || !userId) return;
 
     if (interaction.user.id !== userId) {
-        return interaction.reply({ content: "You cannot interact with this button.", ephemeral: true });
+        return interaction.reply({
+            content: "You cannot interact with this button.",
+            ephemeral: true,
+        });
     }
 
     optionEvents.forEach(event => {

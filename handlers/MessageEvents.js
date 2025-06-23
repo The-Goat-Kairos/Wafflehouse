@@ -7,7 +7,7 @@ const {
 const standardEvents = require("./standardEvents.js");
 const optionEvents = require("./optionEvents.js");
 const db = require("../db.js");
-const {BattleState} = require("./BattleManager.js");
+const {BattleState} = require("./BattleState.js");
 const {Enemy} = require("./Enemy.js");
 
 class MessageEvents {
@@ -60,11 +60,10 @@ class MessageEvents {
         //const command = interaction.client.adminCommands.get(interaction.commandName);
         const battle = new BattleState(userId, enemy, message.guild);
         activeBattles.set(message.member.id, battle);
-        console.log(activeBattles);
 
         const embed = await battle.getBattleEmbed();
 
-        const buttons = BattleState.getButtons(battleId);
+        const buttons = battle.getButtons();
 
         await message.reply({
             embeds: [embed],

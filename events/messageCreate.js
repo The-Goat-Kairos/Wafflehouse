@@ -5,7 +5,7 @@ const userMessages = new Map(); // Map of users to their latest message time
 const TIME_BEFORE_REMOVAL = 15000; // 15 seconds in milliseconds
 const OPTIMAL_MESSAGE_RATE_SINGLE = 1500; // 1.5 seconds in milliseconds
 const OPTIMAL_MESSAGE_RATE_MULTIPLE = 1000; // 1 second in milliseconds
-const MESSAGE_AMOUNT = 3; // Default = 24
+const MESSAGE_AMOUNT = 1; // Default = 24
 let messageCount = 0;
 
 function shouldIncreaseMessageCount(difference, target) {
