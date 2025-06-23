@@ -3,14 +3,14 @@ const optionEvents = require("../handlers/optionEvents.js");
 const db = require("../db.js");
 
 const eventHandlers = {
-    option: handleOptionEvent,
-    battle: handleBattleEvent,
+    "option": handleOptionEvent,
+    "battle": handleBattleEvent,
 };
 
 async function handleBattleEvent(interaction) {
-    const _ = interaction.customId.split(":")[0]; // option or battle
     const action = interaction.customId.split(":")[1];
-    const [userId, battleId] = [interaction.customId.split(":")[2]];
+    const battleId = interaction.customId.split(":")[2]; // userId == battleId == interaction.customId.split()[2]
+    const userId = battleId;
 
     if (!action || !userId || !battleId) return;
 
@@ -37,7 +37,6 @@ async function handleBattleEvent(interaction) {
 }
 
 async function handleOptionEvent(interaction) {
-    const _ = interaction.customId.split(":")[0]; // option or battle
     const buttonId = interaction.customId.split(":")[1];
     const userId = interaction.customId.split(":")[2];
 
@@ -80,6 +79,7 @@ module.exports = {
     async execute(interaction) {
         if (interaction.isButton()) {
             // Is this a button press?
+            // Get event type (option or battle)
             const eventType = interaction.customId.split(":")[0];
             const handler = eventHandlers[eventType];
 

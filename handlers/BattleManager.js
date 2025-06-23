@@ -37,7 +37,7 @@ class BattleState {
         return embed;
     }
 
-    static getButtons() {
+    static getButtons(battleId) {
         // buttonId: 'battle:fight:userId:battleId=userId'
         return new ActionRowBuilder().addComponents(
             new ButtonBuilder()
