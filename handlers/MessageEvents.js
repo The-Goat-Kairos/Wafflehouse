@@ -54,7 +54,6 @@ class MessageEvents {
     static async randomBattleEvent(message) {
         const enemy = new Enemy("Raccoon", 30, ":raccoon:", "animal");
         const userId = message.member.id; // battleId=userId=message.member.id
-        const battleId = message.member.id; // battleId=userId=message.member.id
 
         const activeBattles = message.client.activeBattleStates;
         //const command = interaction.client.adminCommands.get(interaction.commandName);
