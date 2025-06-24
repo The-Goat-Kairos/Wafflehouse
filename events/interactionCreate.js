@@ -34,7 +34,7 @@ async function handleBattleEvent(interaction) {
         battleMessage = battle.fight();
     } else if (action === "syrup") {
         battleMessage = battle.syrup();
-    } else if (action === "hasbrown") {
+    } else if (action === "hashbrown") {
         battleMessage = battle.hashbrown();
     } else if (action === "scream") {
         battleMessage = battle.scream();
@@ -47,7 +47,7 @@ async function handleBattleEvent(interaction) {
         return;
     }
 
-    battle.endTurn();
+    battle.endTurn(action);
 
     const actionEmbed = new EmbedBuilder()
         .setDescription(battleMessage)
@@ -57,12 +57,6 @@ async function handleBattleEvent(interaction) {
     const battleEmbed = await battle.getBattleEmbed();
     const buttons = battle.getButtons();
 
-    // Reply with the action message, updated battle embed, and buttons
-    await interaction.reply({
-        embeds: [actionEmbed, battleEmbed],
-        components: [buttons],
-    });
-
     // Check if the battle is over and handle the end of the battle
     if (battle.isOver()) {
         const resultMessage =
@@ -70,8 +64,18 @@ async function handleBattleEvent(interaction) {
                 ? "You have been defeated!"
                 : `You defeated the ${battle.enemy.name}!`;
 
-        await interaction.followUp({content: resultMessage, ephemeral: true});
+        await interaction.reply({
+            content: resultMessage,
+            embeds: [actionEmbed],
+            components: [buttons],
+        });
         activeBattles.delete(battleId); // Remove the battle from active battles
+    } else {
+        // Reply with the action message, updated battle embed, and buttons
+        await interaction.reply({
+            embeds: [actionEmbed, battleEmbed],
+            components: [buttons],
+        });
     }
 }
 

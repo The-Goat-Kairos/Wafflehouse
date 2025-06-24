@@ -69,7 +69,7 @@ class BattleState {
                 .setCustomId(`battle:special:${this.battleId}`)
                 .setLabel("Special Attack")
                 .setStyle(ButtonStyle.Secondary)
-                .setDisabled(this.specialMoveCooldown <= 0)
+                .setDisabled(this.specialMoveCooldown > 0)
         );
     }
 
@@ -88,7 +88,8 @@ class BattleState {
 
     hashbrown() {
         const hitChance = Math.random();
-        if (hitChance < 0.7) { // 70% chance to hit
+        if (hitChance < 0.7) {
+            // 70% chance to hit
             const damage = Math.floor(Math.random() * 5) + 3; // Random damage between 3 and 7
             this.enemy.hp -= damage;
             return `You throw a hashbrown at the ${this.enemy.name} for ${damage} damage!`;
@@ -99,7 +100,8 @@ class BattleState {
 
     scream() {
         const scareChance = Math.random();
-        if (scareChance < 0.5) { // 50% chance to scare
+        if (scareChance < 0.5) {
+            // 50% chance to scare
             this.enemy.hp -= 2; // Scaring does a small amount of damage
             return `You scream loudly, scaring the ${this.enemy.name} for 2 damage!`;
         } else {
@@ -117,9 +119,10 @@ class BattleState {
         return `You unleash a special move on the ${this.enemy.name} for ${specialDamage} damage!`;
     }
 
-    endTurn() {
+    endTurn(action) {
         this.turn++;
-        if (this.specialMoveCooldown > 0) {
+        // Action makes sure the last move wasn't a special attack.
+        if (this.specialMoveCooldown > 0 && action !== "special") {
             this.specialMoveCooldown--;
         }
     }
