@@ -25,7 +25,10 @@ async function handleBattleEvent(interaction) {
     const battle = activeBattles.get(battleId);
 
     if (!battle) {
-        return interaction.reply("This battle was not found.");
+        return interaction.reply({
+            content: "This battle was not found.",
+            ephemeral: true,
+        });
     }
 
     battle.resetTimeout(interaction);

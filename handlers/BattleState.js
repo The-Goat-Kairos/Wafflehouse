@@ -20,11 +20,14 @@ class BattleState {
 
     startTimeout(interaction) {
         this.timeout = setTimeout(async () => {
-            await interaction.followUp({ content: "The battle has timed out due to inactivity.", ephemeral: true });
+            await interaction.reply({
+                content: "The battle has timed out due to inactivity.",
+                ephemeral: true,
+            });
 
             const activeBattles = interaction.client.activeBattleStates;
             activeBattles.delete(this.battleId);
-        }, 30000);
+        }, 5000);
     }
 
     resetTimeout(interaction) {

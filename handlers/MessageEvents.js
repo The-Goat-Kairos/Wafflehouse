@@ -63,6 +63,7 @@ class MessageEvents {
         const embed = await battle.getBattleEmbed();
 
         const buttons = battle.getButtons();
+        battle.startTimeout(message);
 
         await message.reply({
             embeds: [embed],
