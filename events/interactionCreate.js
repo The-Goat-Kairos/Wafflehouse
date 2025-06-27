@@ -12,7 +12,7 @@ async function handleBattleEvent(interaction) {
     const battleId = interaction.customId.split(":")[2]; // userId == battleId == interaction.customId.split()[2]
     const userId = battleId;
 
-    if (!action || !userId || !battleId) return;
+    if (!action || !battleId) return;
 
     if (interaction.user.id !== userId) {
         return interaction.reply({
@@ -51,34 +51,39 @@ async function handleBattleEvent(interaction) {
         );
         return;
     }
-
-    battle.endTurn(action);
-
     const actionEmbed = new EmbedBuilder()
         .setDescription(battleMessage)
         .setColor(interaction.member.displayHexColor);
 
-    // Get the updated battle embed and buttons
-    const battleEmbed = await battle.getBattleEmbed();
-    const buttons = battle.getButtons();
+    console.log(battle.isOver());
+
+    const enemyTurnResult = battle.doEnemyTurn(); // Love me some good side-effects
+    const enemyActionEmbed = new EmbedBuilder()
+        .setDescription(enemyTurnResult)
+        .setColor(interaction.member.displayHexColor);
+
+    console.log(battle.isOver());
+
+    battle.endTurn(action);
 
     // Check if the battle is over and handle the end of the battle
     if (battle.isOver()) {
         const resultMessage =
             battle.playerHp <= 0
-                ? "You have been defeated!"
+                ? "You have been defeated..."
                 : `You defeated the ${battle.enemy.name}!`;
 
         await interaction.reply({
-            content: resultMessage,
             embeds: [actionEmbed],
-            components: [buttons],
+            content: resultMessage,
         });
-        activeBattles.delete(battleId); // Remove the battle from active battles
+        activeBattles.delete(battleId);
     } else {
-        // Reply with the action message, updated battle embed, and buttons
+        // Reply with the action message, the enemy's action, updated battle embed, and buttons
+        const battleEmbed = await battle.getBattleEmbed();
+        const buttons = battle.getButtons();
         await interaction.reply({
-            embeds: [actionEmbed, battleEmbed],
+            embeds: [actionEmbed, enemyActionEmbed, battleEmbed],
             components: [buttons],
         });
     }

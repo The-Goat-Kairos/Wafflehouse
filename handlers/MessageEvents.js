@@ -52,17 +52,17 @@ class MessageEvents {
     }
 
     static async randomBattleEvent(message) {
-        const enemy = new Enemy("Raccoon", 30, ":raccoon:", "animal");
+        const enemy = new Enemy("Raccoon", 30, ":raccoon:", 3);
+        //const enemy = new Enemy("Raccoon", 30, ":raccoon:", "animal");
         const userId = message.member.id; // battleId=userId=message.member.id
 
-        const activeBattles = message.client.activeBattleStates;
-        //const command = interaction.client.adminCommands.get(interaction.commandName);
+        const activeBattles = message.client.activeBattleStates; // A map of all battles from userId to BattleState
         const battle = new BattleState(userId, enemy, message.guild);
         activeBattles.set(message.member.id, battle);
 
         const embed = await battle.getBattleEmbed();
-
         const buttons = battle.getButtons();
+
         battle.startTimeout(message);
 
         await message.reply({

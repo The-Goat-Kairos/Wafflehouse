@@ -1,3 +1,10 @@
+// Opponent Actions
+// Status Effects
+// Make the special attack actually be Wafflehouse related
+// More opponents
+// Better Win/Lose messages
+// Balancing
+
 const {
     EmbedBuilder,
     ActionRowBuilder,
@@ -27,10 +34,13 @@ class BattleState {
 
             const activeBattles = interaction.client.activeBattleStates;
             activeBattles.delete(this.battleId);
-        }, 5000);
+        }, 45000);
     }
 
     resetTimeout(interaction) {
+        if (this.isOver()) {
+            return;
+        }
         if (this.timeout) {
             clearTimeout(this.timeout);
         }
@@ -42,18 +52,28 @@ class BattleState {
     }
 
     async getBattleEmbed() {
-        const member = await this.guild.members.fetch(this.userId);
+        let member = await this.guild.members.fetch(this.userId);
+        if (member == null) {
+            console.error(
+                "The member was not found while trying to make a battle embed"
+            );
+            member = "John Doe";
+        }
         const embed = new EmbedBuilder()
             .setTitle(`:crossed_swords: A wild ${this.enemy.name} appears`)
             .setDescription(
                 `It snarls at you over the waffle counter.\n\n**What do you do?**`
             )
-            .setColor(member.displayHexColor)
+            .setColor(
+                member.displayHexColor != null
+                    ? member.displayHexColor
+                    : 0x99aab5
+            )
             .addFields([
                 {name: "Your HP", value: `${this.playerHp}`, inline: true},
                 {
                     name: `${this.enemy.icon} ${this.enemy.name}'s HP`,
-                    value: `${this.enemy.hp}`,
+                    value: `${this.enemy.hp}${this.enemy.defenseHealth > 0 ? ` + (${this.enemy.defenseHealth})` : ""}`,
                     inline: true,
                 },
                 {name: "Turn", value: `${this.turn}`, inline: true},
@@ -64,6 +84,10 @@ class BattleState {
                 },
             ]);
         return embed;
+    }
+
+    doEnemyTurn() {
+        return this.enemy.doTurn();
     }
 
     getButtons() {
@@ -95,7 +119,7 @@ class BattleState {
 
     fight() {
         const damage = Math.floor(Math.random() * 6) + 1; // Random damage between 1 and 6
-        this.enemy.hp -= damage;
+        this.enemy.damage(damage);
         return `You attack the ${this.enemy.name} for ${damage} damage!`;
     }
 
@@ -111,7 +135,7 @@ class BattleState {
         if (hitChance < 0.7) {
             // 70% chance to hit
             const damage = Math.floor(Math.random() * 5) + 3; // Random damage between 3 and 7
-            this.enemy.hp -= damage;
+            this.enemy.damage(damage);
             return `You throw a hashbrown at the ${this.enemy.name} for ${damage} damage!`;
         } else {
             return `You missed the ${this.enemy.name} with the hashbrown!`;
@@ -122,7 +146,7 @@ class BattleState {
         const scareChance = Math.random();
         if (scareChance < 0.5) {
             // 50% chance to scare
-            this.enemy.hp -= 2; // Scaring does a small amount of damage
+            this.enemy.hp -= 2;
             return `You scream loudly, scaring the ${this.enemy.name} for 2 damage!`;
         } else {
             return `Your scream has no effect on the ${this.enemy.name}.`;
@@ -148,6 +172,4 @@ class BattleState {
     }
 }
 
-module.exports = {
-    BattleState,
-};
+module.exports = {BattleState};
