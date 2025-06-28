@@ -52,7 +52,7 @@ class MessageEvents {
     }
 
     static async randomBattleEvent(message) {
-        const enemy = new Enemy("Raccoon", 30, ":raccoon:", 3);
+        const enemy = Enemy.getRandomEnemy();
         //const enemy = new Enemy("Raccoon", 30, ":raccoon:", "animal");
         const userId = message.member.id; // battleId=userId=message.member.id
 

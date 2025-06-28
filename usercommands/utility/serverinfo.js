@@ -36,7 +36,7 @@ module.exports = {
         const premiumTierString = premiumTiers[server.premiumTier] || "None";
 
         const embed = new EmbedBuilder()
-            .setColor(message.member.displayHexColor)
+            .setColor(message.member.displayHexColor || message.client.defaultColour)
             .setTitle("Server Information")
             .setDescription(`${capitalizeFirstLetter(server.name)} was created at ${server.createdAt}. It has ${server.memberCount} members and is thus ${server.large ? "" : "not"} a large server. It is ${server.verified ? "" : "not"} verified.`)
             .addFields(

@@ -1,4 +1,3 @@
-// Opponent Actions
 // Status Effects
 // Make the special attack actually be Wafflehouse related
 // More opponents
@@ -17,12 +16,15 @@ class BattleState {
         this.guild = guild;
         this.userId = userId;
         this.battleId = userId;
+        this.timeout = null;
+
         this.enemy = enemy;
+
         this.playerHp = 20;
         this.maxPlayerHp = 20;
+
         this.turn = 1;
         this.specialMoveCooldown = 3;
-        this.timeout = null;
     }
 
     startTimeout(interaction) {
@@ -60,14 +62,14 @@ class BattleState {
             member = "John Doe";
         }
         const embed = new EmbedBuilder()
-            .setTitle(`:crossed_swords: A wild ${this.enemy.name} appears`)
+            .setTitle(`:crossed_swords: ${Enemy.getRandomPrefix()} ${this.enemy.name} appears`)
             .setDescription(
-                `It snarls at you over the waffle counter.\n\n**What do you do?**`
+                `${this.enemy.description}.\n\n**What do you do?**`
             )
             .setColor(
                 member.displayHexColor != null
                     ? member.displayHexColor
-                    : 0x99aab5
+                    : guild.client.defaultColour
             )
             .addFields([
                 {name: "Your HP", value: `${this.playerHp}`, inline: true},
