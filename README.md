@@ -11,14 +11,20 @@
     - [x] Add items to a user
     - [x] Remove items from a user
 - [x] Random encounters
-    - Some random encounters can lead to fights depending on whether the user accepts or not
-    - Some random encounters just result in nothing
-    - Some random encounters can result in good fortune
-    - Some random encounters you get an option (Dodge - Catch, if you dodge you get nothing, if you catch theres a chance you lose and a chance you win)
+    - [x] Some random encounters can lead to fights depending on whether the user accepts or not
+    - [x] Some random encounters just result in nothing
+    - [x] Some random encounters can result in good fortune
+    - [x] Some random encounters you get an option (Dodge - Catch, if you dodge you get nothing, if you catch theres a chance you lose and a chance you win)
 
 Fights:
-- [ ] When you get challenged to a fight you get a couple of options
-     - Accept
-     - Ignore
-     - Get the manager (Gets Swig, Shado, or Trip and gets some dialogue resulting in either nothing, more credits or less credits)
-     - I am the manager (Something like an intimidation check)
+- [x] When you get challenged to a fight you get a couple of options
+    - Fight
+    - Syrup
+    - Hashbrown
+    - Scream
+    - Special attack every couple turns
+- [ ] Status Effects (Later)
+- [ ] Make the special attack actually be Wafflehouse related
+- [x] More opponents
+- [ ] Better Win/Lose messages
+- [ ] Balancing

@@ -58,6 +58,7 @@ class MessageEvents {
 
         const activeBattles = message.client.activeBattleStates; // A map of all battles from userId to BattleState
         const battle = new BattleState(userId, enemy, message.guild);
+        enemy.setBattle(battle);
         activeBattles.set(message.member.id, battle);
 
         const embed = await battle.getBattleEmbed();

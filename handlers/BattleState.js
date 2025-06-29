@@ -1,9 +1,3 @@
-// Status Effects
-// Make the special attack actually be Wafflehouse related
-// More opponents
-// Better Win/Lose messages
-// Balancing
-
 const {
     EmbedBuilder,
     ActionRowBuilder,
