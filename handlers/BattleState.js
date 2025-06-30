@@ -156,7 +156,7 @@ class BattleState {
         const specialDamage = Math.floor(Math.random() * 10) + 5; // Random special damage between 5 and 15
         this.enemy.hp -= specialDamage;
         this.specialMoveCooldown = 3; // Set cooldown for 3 turns
-        return `You unleash a special move on the ${this.enemy.name} for ${specialDamage} damage!`;
+        return `You send a barrage of waffles hurdling towards ${this.enemy.name} for ${specialDamage} damage!`;
     }
 
     endTurn(action) {

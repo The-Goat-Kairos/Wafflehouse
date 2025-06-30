@@ -3,6 +3,8 @@
     - Users can spend credits on items
     - Shop System
 - [ ] funny useless commands
+    - [x] Flip a coin
+    - [x] Roll a dice (Default: 6)
     - [x] `!8ball`
     - [x] `!leave wafflehouse` : `You can never leave the wafflehouse`
 - [x] Admin commands
@@ -24,7 +26,7 @@ Fights:
     - Scream
     - Special attack every couple turns
 - [ ] Status Effects (Later)
-- [ ] Make the special attack actually be Wafflehouse related
+- [x] Make the special attack actually be Wafflehouse related
 - [x] More opponents
-- [ ] Better Win/Lose messages
+- [x] Better Win/Lose messages
 - [ ] Balancing

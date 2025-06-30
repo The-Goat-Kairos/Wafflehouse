@@ -68,10 +68,29 @@ async function handleBattleEvent(interaction) {
 
     // Check if the battle is over and handle the end of the battle
     if (battle.isOver()) {
+        const defeatMessages = [
+            "You've managed to snatch defeat from the jaws of victory. Better luck next time...",
+            "The enemy turned you into a side dish. A tragic fate...",
+            "You've been out-cooked and your pay has been reduced for the week.",
+            "The enemy simply walked up and smacked you around a little bit. Weakling.",
+        ];
+
+        const victoryMessages = [
+            `Congratulations! You've flipped the tables and served that ${battle.enemy.name} a defeat! Waffles for everyone!`,
+            `Victory! You've out-cooked the ${battle.enemy.name} and can proudly call yourself employee of the hour. Maybe.`,
+            `Easy. The ${battle.enemy.name} never saw it coming!`,
+            `Damn. annihilated 'em. Good job, man.`,
+            `Victory is yours! ${battle.enemy.name} will remember this...`,
+        ];
+
         const resultMessage =
             battle.playerHp <= 0
-                ? "You have been defeated..."
-                : `You defeated the ${battle.enemy.name}!`;
+                ? defeatMessages[
+                      Math.floor(Math.random() * defeatMessages.length)
+                  ]
+                : victoryMessages[
+                      Math.floor(Math.random() * victoryMessages.length)
+                  ];
 
         await interaction.reply({
             embeds: [actionEmbed],
