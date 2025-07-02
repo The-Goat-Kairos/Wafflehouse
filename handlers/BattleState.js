@@ -4,6 +4,7 @@ const {
     ButtonBuilder,
     ButtonStyle,
 } = require("discord.js");
+const {Enemy} = require("./Enemy.js");
 
 class BattleState {
     constructor(userId, enemy, guild) {
@@ -43,6 +44,12 @@ class BattleState {
         this.startTimeout(interaction);
     }
 
+    stopTimeout() {
+        if (this.timeout) {
+            clearTimeout(this.timeout);
+        }
+    }
+
     isOver() {
         return this.enemy.hp <= 0 || this.playerHp <= 0;
     }
@@ -56,7 +63,7 @@ class BattleState {
             member = "John Doe";
         }
         const embed = new EmbedBuilder()
-            .setTitle(`:crossed_swords: ${Enemy.getRandomPrefix()} ${this.enemy.name} appears`)
+            .setTitle(`:crossed_swords: ${Enemy.getRandomPrefix()} ${this.enemy.name} appears!`)
             .setDescription(
                 `${this.enemy.description}.\n\n**What do you do?**`
             )

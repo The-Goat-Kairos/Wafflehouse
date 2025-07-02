@@ -27,7 +27,7 @@ class Enemy {
     }
 
     attack() {
-        const damage = Math.floor(Math.random() * attackStat) + 1;
+        const damage = Math.floor(Math.random() * this.attackStat) + 1;
         this.playerHp -= damage;
         return `${this.icon} ${this.name} attacks you for ${damage} damage!`;
     }
@@ -64,61 +64,62 @@ class Enemy {
     }
 
     static getRandomEnemy() {
+        //constructor(name, icon, description, hp, attackStat) {
         const enemies = [
             new Enemy(
                 "Raccoon",
-                30,
                 ":raccoon:",
                 "It snarls at you from across the counter!",
+                30,
                 3
             ),
             new Enemy(
                 "Angry Customer",
-                25,
                 ":angry:",
                 "They shout about their order and demands a refund!",
+                25,
                 4
             ),
             new Enemy(
                 "Greasy Chef",
-                20,
-                ":chef:",
+                ":cook:",
                 "He throws a spatula at you from the kitchen in frustration!",
+                20,
                 5
             ),
             new Enemy(
                 "Waffle Monster",
-                10,
                 ":waffle:",
                 "It oozes syrup... from across the counter?",
+                10,
                 6
             ),
             new Enemy(
                 "Panda",
-                60,
                 ":panda_face:",
                 "It lazily rolls towards you, knocking over tables and customers.",
+                60,
                 1
             ),
             new Enemy(
                 "Eldritch Monster",
-                99999,
                 ":ghost:",
                 "It whispers incomprehensible horrors from across the counter!",
+                99999,
                 99999
             ),
             new Enemy(
                 "Local Wizard",
-                30,
                 ":ghost:",
                 "He begins casting a malicious spell at you from across the counter!",
+                30,
                 4
             ),
             new Enemy(
                 "Stray Cat",
-                15,
                 ":ghost:",
                 "It hisses at you from across the counter!",
+                15,
                 5
             ),
         ];
@@ -147,7 +148,7 @@ class Enemy {
             "A basic",
         ];
 
-        const randomIndex = Math.floor(Math.random() * enemies.length);
+        const randomIndex = Math.floor(Math.random() * prefixes.length);
         return prefixes[randomIndex];
     }
 }

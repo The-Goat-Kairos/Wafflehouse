@@ -55,14 +55,10 @@ async function handleBattleEvent(interaction) {
         .setDescription(battleMessage)
         .setColor(interaction.member.displayHexColor);
 
-    console.log(battle.isOver());
-
     const enemyTurnResult = battle.doEnemyTurn(); // Love me some good side-effects
     const enemyActionEmbed = new EmbedBuilder()
         .setDescription(enemyTurnResult)
         .setColor(interaction.member.displayHexColor);
-
-    console.log(battle.isOver());
 
     battle.endTurn(action);
 
@@ -92,6 +88,7 @@ async function handleBattleEvent(interaction) {
                       Math.floor(Math.random() * victoryMessages.length)
                   ];
 
+        battle.stopTimeout();
         await interaction.reply({
             embeds: [actionEmbed],
             content: resultMessage,
