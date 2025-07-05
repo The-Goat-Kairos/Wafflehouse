@@ -22,7 +22,7 @@ client.adminCommands = new Collection();
 client.userCommands = new Collection();
 client.welcomeChannel = "general";
 client.activeBattleStates = new Map();
-client.streamers = ["alpharad", "swiggitycat"];
+client.streamers = ["swiggitycat"];
 client.botChannel = "general";
 client.defaultColour = 0x99aab5;
 
