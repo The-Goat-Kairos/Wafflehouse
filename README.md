@@ -2,7 +2,7 @@
     - Users can gain credits by participating in events/commands
     - Users can spend credits on items
     - Shop System
-- [ ] funny useless commands
+- [x] funny useless commands
     - [x] Flip a coin
     - [x] Roll a dice (Default: 6)
     - [x] `!8ball`
