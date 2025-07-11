@@ -1,6 +1,6 @@
 const {Events, ActivityType} = require("discord.js");
 const MINUTE_IN_MILISECONDS = 10000;
-const streamersAlreadyLive = Map();
+const streamersAlreadyLive = new Map();
 
 module.exports = {
     name: Events.ClientReady,
@@ -30,7 +30,7 @@ async function announceLive(streamer, client) {
 }
 
 async function monitorStream(client) {
-    for (let streamer of client.streamers) {
+    for (let [streamer, _] of streamersAlreadyLive) {
         // For all streamers, if they're live and they weren't previously live, we announce them and also set them to being live
         if (await checkIfLive(streamer)) {
             if (!streamersAlreadyLive.get(streamer)) {
@@ -51,13 +51,7 @@ async function checkIfLive(username) {
         const response = await fetch(`https://twitch.tv/${username}`);
         const sourceCode = await response.text();
 
-        if (sourceCode.includes("isLiveBroadcast")) {
-            //console.log(`${username} is live`);
-            return true;
-        } else {
-            //console.log(`${username} is not live`);
-            return false;
-        }
+        return sourceCode.includes("isLiveBroadcast")
     } catch (error) {
         console.error(error);
     }

@@ -17,12 +17,6 @@ module.exports = {
                 .setName("streamer")
                 .setDescription("The streamer to remove")
                 .setRequired(true)
-                .addChoices(
-                    interaction.client.streamers.map(streamer => ({
-                        name: streamer,
-                        value: streamer,
-                    }))
-                )
         ),
     async execute(interaction) {
         const streamerName = interaction.options.getString("streamer");
