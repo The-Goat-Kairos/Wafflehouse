@@ -18,14 +18,15 @@ module.exports = {
     async execute(interaction) {
         const channelName = interaction.options.getString("channelName");
 
-        const channel = interaction.guild.channels.cache.find(c => c.name === channelName);
+        const channel = interaction.guild.channels.cache.find(
+            c => c.name === channelName
+        );
 
         if (!channel) {
             return await interaction.reply({
                 content: `Channel "${channelName}" does not exist.`,
-                flags: MessageFlags.Ephemeral
+                flags: MessageFlags.Ephemeral,
             });
-
         }
 
         interaction.client.botchannelName = channelName;
