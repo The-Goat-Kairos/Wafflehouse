@@ -1,3 +1,6 @@
+## This shit needs to be tested way more than it currently is.
+The only good thing is I don't think I'm leaking data or anything so that's fine.
+
 - [ ] Credit system
     - Users can gain credits by participating in events/commands
     - Users can spend credits on items
