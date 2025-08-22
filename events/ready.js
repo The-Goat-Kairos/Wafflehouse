@@ -32,10 +32,8 @@ async function announceLive(streamer, client) {
 
 async function monitorStream(client) {
     for (let streamer of client.streamers) {
-        console.log("streamers finding: " + streamer);
         // For all streamers, if they're live and they weren't previously live, we announce them and also set them to being live
         if (await checkIfLive(streamer)) {
-            console.log("streamers live: " + streamer);
             if (!streamersAlreadyLive.get(streamer)) {
                 streamersAlreadyLive.set(streamer, true);
                 await announceLive(streamer, client);
